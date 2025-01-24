@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ITaxi } from "../types/ITaxi";
-import taxiService from "../services/taxiService.ts";
+import taxiService from "../services/TaxiService.ts";
 import "./TaxiList.scss";
 
 const TaxiList: React.FC = () => {

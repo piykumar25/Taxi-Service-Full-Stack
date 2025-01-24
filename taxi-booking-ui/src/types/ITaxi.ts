@@ -4,4 +4,13 @@ export interface ITaxi {
     location: string;
     price: number;
   }
+
+  
+export interface TaxiFormData {
+  ownerName: string;
+  address: string;
+  mobileNumber: string;
+  taxiNumber: string;
+  brandName: string;
+}
   

@@ -1,13 +1,14 @@
 import React from "react";
-import TaxiList from "../components/TaxiList.tsx";
 import Header from "../components/Header.tsx";
+import { RegisterTaxi } from "../components/RegisterTaxi.tsx";
 
 const Home: React.FC = () => {
+
   return (
     <div>
       <Header />
       <main>
-        <TaxiList />
+        <RegisterTaxi />
       </main>
     </div>
   );

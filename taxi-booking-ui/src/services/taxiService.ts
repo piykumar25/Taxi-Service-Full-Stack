@@ -1,21 +1,30 @@
-import axios from "axios";
-import { ITaxi } from "../types/ITaxi.ts";
+import { API_URL } from '../config.tsx';
+import { TaxiFormData } from '../types/ITaxi.ts';
 
-const taxiService = {
-  getTaxis: async (): Promise<ITaxi[]> => {
-    try {
-      // Replace this with your real API URL
-      const response = await axios.get<ITaxi[]>("https://api.example.com/taxis");
-      return response.data;
-    } catch (err) {
-      console.error(err);
-      return [
-        { id: 1, name: "Dummy Taxi 1", location: "Location A", price: 100 },
-        { id: 2, name: "Dummy Taxi 2", location: "Location B", price: 200 },
-      ];
+/**
+ * Creates a new taxi record in the backend.
+ *
+ * @param formData - The taxi form data to be sent to the API.
+ * @returns A promise that resolves with the created taxi record, or rejects with an error.
+ */
+export async function createTaxi(formData: TaxiFormData): Promise<TaxiFormData> {
+  try {
+    const response = await fetch(`${API_URL}/create/taxi`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  },
-};
 
-export default taxiService;
-
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error creating taxi record:', error);
+    throw error;
+  }
+}
