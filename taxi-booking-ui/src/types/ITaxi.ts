@@ -7,6 +7,7 @@ export interface ITaxi {
 
   
 export interface TaxiFormData {
+  id?: number;
   ownerName: string;
   address: string;
   mobileNumber: string;

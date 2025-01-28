@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { getAllTaxi } from "../services/TaxiService.ts";
+import { getAllTaxi, deleteTaxi } from "../services/TaxiService.ts";
 import { TaxiFormData } from "../types/ITaxi";
-import { Container, Row, Col, Table } from "react-bootstrap";
+import { Container, Row, Col, Table, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 export function AllTaxi() {
-
     const [allTaxi, setAllTaxi] = useState<TaxiFormData[]>([]);
     const [viewAsTable, setViewAsTable] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -16,14 +17,23 @@ export function AllTaxi() {
         fetchData();
     }, []);
 
+    const handleDelete = async (id: number) => {
+        try {
+            await deleteTaxi(id);
+            navigate(0); // Reload the page
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <Container>
             <h1 className="my-4">All Taxi</h1>
             <Row>
                 <Col xs={12} md={6} lg={4} className="mb-3">
-                    <button className="btn btn-secondary" onClick={() => setViewAsTable(!viewAsTable)}>
+                    <Button variant="secondary" onClick={() => setViewAsTable(!viewAsTable)}>
                         {viewAsTable ? "View as Card" : "View as Table"}
-                    </button>
+                    </Button>
                 </Col>
             </Row>
             {!viewAsTable && (
@@ -37,6 +47,7 @@ export function AllTaxi() {
                                     <p className="card-text">{taxi.mobileNumber}</p>
                                     <p className="card-text">{taxi.taxiNumber}</p>
                                     <p className="card-text">{taxi.brandName}</p>
+                                    <Button variant="danger" onClick={() => taxi.id !== undefined && handleDelete(taxi.id)}>Delete</Button>
                                 </div>
                             </div>
                         </Col>
@@ -54,6 +65,7 @@ export function AllTaxi() {
                                     <th>Mobile Number</th>
                                     <th>Taxi Number</th>
                                     <th>Brand Name</th>
+                                    <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -64,6 +76,9 @@ export function AllTaxi() {
                                         <td>{taxi.mobileNumber}</td>
                                         <td>{taxi.taxiNumber}</td>
                                         <td>{taxi.brandName}</td>
+                                        <td>
+                                            <Button variant="danger" onClick={() => handleDelete(taxi.id)}>Delete</Button>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -74,7 +89,5 @@ export function AllTaxi() {
         </Container>
     );
 }
-
-
 
 
