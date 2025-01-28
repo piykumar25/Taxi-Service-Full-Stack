@@ -1,8 +1,120 @@
-@import '../styles/variables';
+$primary-color: blue;
+$white: #fff;
+$dark-gray: #666;
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .header {
   background-color: $primary-color;
-  color: white;
-  padding: 1rem;
-  text-align: center;
+  font-style: italic;
+  font-size: 20px;
+  width: 100%;
+  height: 20px;
+  color: $white;
+  padding: 20px;
+  position: sticky;
+  @include flex-center;
+  justify-content: space-between;
+  padding: 3%;
+  z-index: 1000;
+
+  .hamburger-icon {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    position: absolute;
+    left: 20px; // Position it on the left side
+
+    .hamburger-line {
+      display: block;
+      width: 100%;
+      height: 3px;
+      background-color: $white;
+      margin-bottom: 5px;
+      transition: all 0.3s;
+
+      &:hover {
+        background-color: $dark-gray;
+      }
+    }
+  }
+
+  h1 {
+    font-size: 40px;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    text-align: center;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    left: -100%; // Completely off-screen initially
+    height: 100vh;
+    width: 250px;
+    background-color: $primary-color;
+    color: $white;
+    transition: left 0.3s ease-in-out; // Smooth sliding effect
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+
+    &.open {
+      left: 0; // Slide it into view when the menu is open
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 60px;
+
+      li {
+        margin-bottom: 20px;
+        font-size: 20px;
+
+        a {
+          color: $white;
+          text-decoration: none;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: $dark-gray;
+          }
+        }
+      }
+    }
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    z-index: 1000; /* Place it above the content but below the menu */
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    font-size: 20px;
+    height: auto;
+    padding: 10px;
+
+    h1 {
+      font-size: 24px;
+    }
+
+    .hamburger-icon {
+      width: 25px;
+      height: 25px;
+    }
+  }
 }

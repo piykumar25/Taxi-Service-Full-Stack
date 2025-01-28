@@ -2,10 +2,9 @@ package com.piyush.taxi_backend.controller;
 
 import com.piyush.taxi_backend.model.TaxiFormData;
 import com.piyush.taxi_backend.service.TaxiService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -21,5 +20,16 @@ public class TaxiController {
     public TaxiFormData registerTaxi(@RequestBody TaxiFormData taxiFormData) {
 
         return taxiService.createTaxi(taxiFormData);
+    }
+
+    @GetMapping("/all/taxi")
+    public Iterable<TaxiFormData> getAllTaxis() {
+
+        return taxiService.getAllTaxi();
+    }
+
+    @DeleteMapping("/delete/taxi/{id}")
+    public void deleteTaxi(@PathVariable Long id) {
+        taxiService.deleteTaxi(id);
     }
 }
